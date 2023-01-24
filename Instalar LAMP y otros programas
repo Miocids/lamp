@@ -107,10 +107,10 @@ nano /etc/hosts
 
 127.0.0.1       localhost -> nombre del dominio creado anteriormente
 
-sudo chown omar:omar /var/www/credit/storage
-chmod 777 /var/www/credit/storage/logs
+sudo chown omar:omar /var/www/nombreDelProyecto/storage
+chmod 777 /var/www/nombreDelProyecto/storage/logs
 
-chmod 777 -R /var/www/credit/storage/logs
+chmod 777 -R /var/www/nombreDelProyecto/storage/logs
 
 sudo a2enmod rewrite
 
