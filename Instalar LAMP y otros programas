@@ -1,0 +1,146 @@
+(Para instalar LAMP)
+
+sudo -i (ingresar como administrador)
+apt-get update
+apt-get install apache2
+service apache2 status
+apache2 -v
+loscalhost en el navegador
+apt-get install mysql-server mysql-client
+service mysql status
+mysql -u root -p (ingresar contraseña)
+show databases;
+SELECT user, authentication_string,plugin,host FROM mysql.user;
+Cambiar del usuario root el auth_socket: 
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
+SELECT user, authentication_string,plugin,host FROM mysql.user;
+FLUSH PRIVILEGES;
+quit
+apt-get install php libapache2-mod-php php-mysql
+php -v
+apt-get install phpmyadmin
+Después de la instalación apretar barra espaciadora (SPACE)
+Después OK
+Clave del usuario de la BD: 1234
+localhost/phpmyadmin
+
+------------------------------------------------------------------------
+(Para instalar Mysql workwench
+
+sudo -i (ingresar como administrador)
+apt-get update
+apt-get install mysql-workbench
+apt-get install mysql-server
+mysql -u root -p (ingresar contraseña del usuario)
+ALTER USER 'root'@'localhost'
+IDENTIFIED WITH mysql_native_password BY '1234';
+
+------------------------------------------------------------------------
+Activar nùcleos en linux
+(1 para activar y 0 para desactivar)
+
+echo 1 | sudo tee /sys/devices/system/cpu/cpu0/online
+echo 1 | sudo tee /sys/devices/system/cpu/cpu1/online
+echo 1 | sudo tee /sys/devices/system/cpu/cpu2/online
+echo 1 | sudo tee /sys/devices/system/cpu/cpu3/online
+
+------------------------------------------------------------------------
+Activar particiòn swap
+
+/swapfile swap swap defaults 0 0
+vm.swappiness=10
+
+------------------------------------------------------------------------
+
+Virtual host
+
+mkdir -p /var/www/nombreDelProyecto
+chown -R omar:omar nombreDelProyecto (otorgar permisos)
+chmod 755 -R nombreDelProyecto
+cd /etc/apache2/sites-available/
+cp 000-default.conf nombreDelProyecto.conf
+nano nombreDelProyecto.conf 
+
+<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and >
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerNa>
+        # specifies what hostname must appear in the request's Host: head>
+        # match this virtual host. For the default virtual host (this fil>
+        # value is not decisive as it is used as a last resort host regar>
+        # However, you must set it for any further virtual host explicitl>
+        ServerName nombreDelProyecto.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/nombreDelProyecto/public
+        
+        <Directory /var/www/nombreDelProyecto/public>
+	Options Indexes FollowSymLinks MultiViews
+	AllowOverride All
+	Order allow,deny
+	allow from all
+	</Directory>
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, >
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For exampl>
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+a2ensite nombreDelProyecto
+meter los archivos en la ruta creada /var/www/nombreDelProyecto
+
+lp a
+
+nano /etc/hosts
+
+127.0.0.1       localhost -> nombre del dominio creado anteriormente
+
+sudo chown omar:omar /var/www/credit/storage
+chmod 777 /var/www/credit/storage/logs
+
+chmod 777 -R /var/www/credit/storage/logs
+
+sudo a2enmod rewrite
+
+sudo service apache2 restart
+
+
+// Si no funciona la virtualización en Laravel ejecutar:
+
+php artisan route:clear
+
+php artisan config:clear
+
+php artisan cache:clear
+
+--------------------------------------------------------------------------------------------------
+
+Iniciar Apache:
+
+/etc/init.d/apache2 start
+
+Reiniciar Apache:
+
+/etc/init.d/apache2 restart
+
+Parar Apache:
+
+/etc/init.d/apache2 stop
+
+Reiniciar MYSQL en Ubuntu
+
+    Iniciar MYSQL: /etc/init.d/mysql start.
+    Reiniciar MYSQL: /etc/init.d/mysql restart.
+    Parar MYSQL: /etc/init.d/mysql stop.
